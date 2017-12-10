@@ -6,6 +6,8 @@ NetEase-MusicBox
 
 高品质网易云音乐命令行版本，简洁优雅，丝般顺滑，基于Python编写。
 
+**个人修改版本**
+
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.txt)
 [![versions](https://img.shields.io/pypi/v/NetEase-MusicBox.svg)](https://pypi.python.org/pypi/NetEase-MusicBox/)
 [![platform](https://img.shields.io/badge/python-2.7-green.svg)]()
@@ -33,7 +35,7 @@ NetEase-MusicBox
 16. 可使用数字快捷键
 17. 可使用自定义全局快捷键
 
-18. 添加--search songname，直接播放歌曲
+18. **添加--search songname，直接播放歌曲**
 
 ### 键盘快捷键
 
