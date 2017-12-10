@@ -33,6 +33,8 @@ NetEase-MusicBox
 16. 可使用数字快捷键
 17. 可使用自定义全局快捷键
 
+18. 添加--search songname，直接播放歌曲
+
 ### 键盘快捷键
 
 <table>
@@ -75,7 +77,7 @@ NetEase-MusicBox
 
 ### PyPi安装
 	$ pip(3) install NetEase-MusicBox
-	
+
 ### Git clone最新版
 	$ git clone https://github.com/darknessomi/musicbox.git && cd musicbox
 	$ python(3) setup.py install

@@ -26,6 +26,9 @@ def start():
                         "--version",
                         help="show this version and exit",
                         action="store_true")
+    parser.add_argument("--search",
+                        help="search song",
+                        action="store")
     args = parser.parse_args()
     if args.version:
         latest = Menu().check_version()
@@ -33,6 +36,11 @@ def start():
         print('NetEase-MusicBox installed version:' + version)
         if latest != version:
             print('NetEase-MusicBox latest version:' + str(latest))
+        sys.exit()
+
+    if args.search is not None:
+        nembox_menu = Menu()
+        nembox_menu.search(args.search)
         sys.exit()
 
     nembox_menu = Menu()

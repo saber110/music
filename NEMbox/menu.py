@@ -170,11 +170,13 @@ class Menu(object):
             return 0
 
     def start_fork(self, version):
+
         pid = os.fork()
         if pid == 0:
             Menu().update_alert(version)
         else:
             Menu().start()
+
 
     def _is_playlist_empty(self):
         return len(self.storage.database['player_info']['player_list']) == 0
@@ -211,6 +213,35 @@ class Menu(object):
             keybinder.unbind(self.config.get_item('global_play_pause'))  # noqa
             keybinder.unbind(self.config.get_item('global_next'))  # noqa
             keybinder.unbind(self.config.get_item('global_previous'))  # noqa
+
+    def writetofile(self, filename, content):
+        f = open(filename, 'w')
+        f.write(content)
+        f.close()
+
+    def search(self,song_name):
+        # while True:
+        song_ids = []
+        data = self.netease.search(song_name, stype=1)
+        if 'songs' in data['result']:
+            if 'mp3Url' in data['result']['songs']:
+                songs = data['result']['songs']
+            else:
+                for i in range(0, len(data['result']['songs'])):
+                    song_ids.append(data['result']['songs'][i][
+                        'id'])
+                songs = self.netease.songs_detail(song_ids)
+                # print(self.netease.dig_info(self.datalist, 'songs'))
+                self.datalist = self.netease.dig_info(songs, 'songs')
+                self.datatype = 'songs'
+                self.title = '歌曲搜索列表'
+        self.resume_play = False
+        self.player.new_player_list('songs', self.title, self.datalist, -1)
+        self.player.end_callback = None
+        self.player.play_and_pause(0)
+        self.at_playing_list = True
+        time.sleep(10)
+
 
     def start(self):
         self.START = time.time() // 1
@@ -423,21 +454,21 @@ class Menu(object):
                     log.error(e)
 
                 # If change to a new playing list. Add playing list and play.
-                if datatype == 'songs':
+                if datatype == 'songs':     #歌曲
                     self.resume_play = False
                     self.player.new_player_list('songs', self.title,
                                                 self.datalist, -1)
                     self.player.end_callback = None
                     self.player.play_and_pause(idx)
                     self.at_playing_list = True
-                elif datatype == 'djchannels':
+                elif datatype == 'djchannels': # 主播电台
                     self.resume_play = False
                     self.player.new_player_list('djchannels', self.title,
                                                 self.datalist, -1)
                     self.player.end_callback = None
                     self.player.play_and_pause(idx)
                     self.at_playing_list = True
-                elif datatype == 'fmsongs':
+                elif datatype == 'fmsongs':  # FM
                     self.resume_play = False
                     self.storage.database['player_info']['playing_mode'] = 0
                     self.player.new_player_list('fmsongs', self.title,
